@@ -1,22 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GestionCollision : MonoBehaviour
 {
     // ***** Attributs *****
+    public static EventHandler<OnCollisionOccuredEventArgs> OnCollisionOccured;
+    public class OnCollisionOccuredEventArgs : EventArgs
+    {
+        public int CollisionValue;
+    }
     [SerializeField] private Material _materielRouge;
     [SerializeField] private float _delaiReactivation = 4f;
+    [SerializeField] private int _collisionValue = 1;
     private Material _materielInitial;
-    private bool _touche;  // Booléen qui permet de détecter si l'objet a été touché
+    private bool _touche;  // Boolï¿½en qui permet de dï¿½tecter si l'objet a ï¿½tï¿½ touchï¿½
     private float _tempsTouche = 0f;
     
 
-    // ***** Méthodes privées *****
+    // ***** Mï¿½thodes privï¿½es *****
     private void Start()
     {
         _materielInitial = GetComponent<MeshRenderer>().material;
-        _touche= false;  // initialise le booléen à faux au début de la scène
+        _touche= false;  // initialise le boolï¿½en ï¿½ faux au dï¿½but de la scï¿½ne
     }
 
     private void Update()
@@ -29,17 +36,20 @@ public class GestionCollision : MonoBehaviour
     }
 
     /* 
-     * Rôle : Méthode qui se déclenche quand une collision se produit avec l'objet
-     * Entrée : un objet de type Collision qui représente l'objet avec qui la collision s'est produite
+     * Rï¿½le : Mï¿½thode qui se dï¿½clenche quand une collision se produit avec l'objet
+     * Entrï¿½e : un objet de type Collision qui reprï¿½sente l'objet avec qui la collision s'est produite
      */
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player" && !_touche)  // Si l'objet avec la collision s'est produite est le joueur et qu'il n'a pas déjà et touché
+        if (collision.gameObject.tag == "Player" && !_touche)  // Si l'objet avec la collision s'est produite est le joueur et qu'il n'a pas dï¿½jï¿½ et touchï¿½
         {
-            _touche = true;  // change le booléen à vrai pour indiqué que l'objet a été touché
-            gameObject.GetComponent<MeshRenderer>().material = _materielRouge;  //change la couleur du matériel à rouge
-            GestionJeu.Instance.AugmenterPointage();  // Appelle la méthode publique dans GestionJeu pour augmenter le pointage
+            _touche = true;  // change le boolï¿½en ï¿½ vrai pour indiquï¿½ que l'objet a ï¿½tï¿½ touchï¿½
+            gameObject.GetComponent<MeshRenderer>().material = _materielRouge;  //change la couleur du matï¿½riel ï¿½ rouge
             _tempsTouche = Time.time;
+            OnCollisionOccured?.Invoke(this, new OnCollisionOccuredEventArgs
+            {
+                CollisionValue = _collisionValue,
+            });
         }
     }
 }

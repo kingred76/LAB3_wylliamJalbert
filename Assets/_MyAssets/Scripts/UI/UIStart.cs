@@ -1,11 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIStart : MonoBehaviour
 {
     [SerializeField] GameObject _startPanel;
     [SerializeField] GameObject _InstructionsPanel;
 
+    [SerializeField] Button _StartButton;
+    [SerializeField] Button _CloseButton;
+
+    private void Start()
+    {
+        EventSystem.current.SetSelectedGameObject(_StartButton.gameObject);
+    }
     public void OnStartClick()
     {
         SceneManager.LoadScene(1);
@@ -17,6 +26,7 @@ public class UIStart : MonoBehaviour
 
         _startPanel.SetActive(false);
         _InstructionsPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(_CloseButton.gameObject);
     }
 
     public void OnClosesClick()
@@ -24,6 +34,7 @@ public class UIStart : MonoBehaviour
 
         _startPanel.SetActive(true);
         _InstructionsPanel.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(_StartButton.gameObject);
     }
 
     public void OnQuitClick()
