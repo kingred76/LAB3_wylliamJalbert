@@ -2,11 +2,27 @@ using UnityEngine;
 using TMPro;
 
 
-public class UI : MonoBehaviour
+public class UIGame : MonoBehaviour
 {
+    public static UIGame Instance;
+
     [SerializeField] private TextMeshProUGUI _TxtTime;
     [SerializeField] private TextMeshProUGUI _TxtCollisions;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.LogError("2 fois");
+            Destroy(gameObject);
+        }
+
+    }
     private void Start()
     {
         GestionCollision.OnCollisionOccured += GestionCollision_OnCollisionOccured;
