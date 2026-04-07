@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GestionJeu : MonoBehaviour
 {
     public static GestionJeu Instance;
-    
+
     // ***** Attributs *****
     private int _pointage = 0;  // Attribut qui conserve le nombre d'accrochages
     public int Pointage => _pointage; // Accesseur de l'attribut
@@ -45,8 +45,11 @@ public class GestionJeu : MonoBehaviour
 
 
 
-    private float _startTime; 
+    private float _startTime;
     public float StartTime => _startTime;
+
+    private float _endTime;
+    public float EndTime { get => _endTime; set => _endTime = value; } 
 
     private void Start()
     {
