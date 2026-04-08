@@ -18,6 +18,12 @@ public class UIStart : MonoBehaviour
         {
             Destroy(gestionJeu.gameObject);
         }
+
+        UIGame uiGaem = FindAnyObjectByType<UIGame>();
+        if (uiGaem != null)
+        {
+            Destroy(uiGaem.gameObject);
+        }
     }
     private void Start()
     {
@@ -53,5 +59,6 @@ public class UIStart : MonoBehaviour
         Application.Quit();//quitter l'exec en cours
 #endif
     }
+
 
 }

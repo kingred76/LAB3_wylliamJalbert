@@ -1,16 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     // ***** Attributs *****
+
+    public static event EventHandler OnPlayerPaused;
+
+    public static void TriggerOnPlayerPause(object sender)
+    {
+        OnPlayerPaused?.Invoke(sender, EventArgs.Empty);
+    }
     
     [SerializeField] private float _vitesse = 800f;  //Vitesse de d�placement du joueur
     [SerializeField] private float _rotationSpeed = 700f;
     private Rigidbody _rb;  // Variable pour emmagasiner le rigidbody du joueur
     private bool _aBouger = false;
     private float _tempsDepart = -1f;
+    private PlayerInputActions _playerInputActions;
+
     
     //  ***** M�thodes priv�es *****
     
@@ -18,10 +29,19 @@ public class Player : MonoBehaviour
     {
         // Position initiale du joueur
         //transform.position = new Vector3(-30f, 0.51f, -30f);  // place le joueur � sa position initiale 
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Player.Enable();
         _rb = GetComponent<Rigidbody>();  // R�cup�re le rigidbody du Player
         _aBouger = false;
+        _playerInputActions.Player.Pause.performed += Pause_performed;
+        
     }
 
+    private void Pause_performed(InputAction.CallbackContext obj)
+    {
+        OnPlayerPaused?.Invoke(this, EventArgs.Empty);
+        
+    }
 
     private void Update()
     {

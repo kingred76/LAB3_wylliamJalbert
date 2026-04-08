@@ -9,8 +9,11 @@ public class GestionJeu : MonoBehaviour
     public static GestionJeu Instance;
 
     // ***** Attributs *****
+    public float TempsCumule { get; set; } = 0f;
+
     private int _pointage = 0;  // Attribut qui conserve le nombre d'accrochages
     public int Pointage => _pointage; // Accesseur de l'attribut
+
 
     private List<int> _listeAccrochages = new List<int>();
     public List<int> ListeAccrochages => _listeAccrochages;
@@ -35,12 +38,14 @@ public class GestionJeu : MonoBehaviour
             Destroy(gameObject);
         }
         GestionCollision.OnCollisionOccured += GestionCollision_OnCollisionOccured;
+        
 
     }
 
     private void OnDestroy()
     {
         GestionCollision.OnCollisionOccured -= GestionCollision_OnCollisionOccured;
+        Player.OnPlayerPaused -= Player_OnPlayerPaused;
     }
 
 
@@ -51,10 +56,34 @@ public class GestionJeu : MonoBehaviour
     private float _endTime;
     public float EndTime { get => _endTime; set => _endTime = value; } 
 
+    private bool _isPaused = false;
+
+    private int _pointageNiveau;
+    public int PointageNiveau { get => _pointageNiveau; set => _pointageNiveau = value; }
+
+    private float _startTimeNiveau;
+    public float StartTimeNiveau { get => _startTimeNiveau; set => _startTimeNiveau = value; }
+
     private void Start()
     {
+        Time.timeScale = 1.0f;
         _pointage = 0;
         _startTime = Time.time;
+        Player.OnPlayerPaused += Player_OnPlayerPaused;
+       
+    }
+
+    private void Player_OnPlayerPaused(object sender, System.EventArgs e)
+    {
+        if (_isPaused)
+        {
+            Time.timeScale = 1.0f;
+            _isPaused = false;
+        }
+        else { 
+            Time.timeScale = 0.0f;
+            _isPaused = true;
+        }
     }
 
     // ***** M�thodes publiques ******
@@ -62,7 +91,7 @@ public class GestionJeu : MonoBehaviour
     /*
      * M�thode publique qui permet d'augmenter le pointage de 1
      */
-    
+
 
     // M�thode qui re�oit les valeurs pour le niveau et l'ajoute dans les listes respectives
     public void SetNiveau(float temps)

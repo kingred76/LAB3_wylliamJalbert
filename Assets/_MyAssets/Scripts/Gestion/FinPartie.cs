@@ -26,12 +26,18 @@ public class FinPartie : MonoBehaviour
         {
             _finPartie = true; // met le bool�en � vrai pour indiquer la fin de la partie
             int noScene = SceneManager.GetActiveScene().buildIndex; // R�cup�re l'index de la sc�ne en cours
+
+            float tempsNiveau = Time.time - _player.GetTempsDepart();
+            GestionJeu.Instance.TempsCumule += tempsNiveau;
+
+
+            GestionJeu.Instance.PointageNiveau = GestionJeu.Instance.Pointage;
             GestionJeu.Instance.SetNiveau(Time.time - _player.GetTempsDepart());
             if (noScene == SceneManager.sceneCountInBuildSettings -2)
             {
                 GestionJeu.Instance.EndTime = Time.time - GestionJeu.Instance.StartTime;
             }
-            
+           
             SceneManager.LoadScene(noScene + 1);
 
         }
