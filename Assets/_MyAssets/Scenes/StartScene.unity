@@ -176,29 +176,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod
-    erat sed dui condimentum euismod. Vestibulum orci nisl, blandit vel arcu vitae,
-    elementum bibendum lorem. Nullam non porta arcu. Nulla non facilisi   \n\n\ns
-    nulla, ac semper tellus. Fusce in hendrerit sapien. Donec vitae mi diam. In ultricies
-    urna vitae nisi convallis, ut rhoncus odio pretium. Sed sit amet est sed tortor
-    \n\n\nblandit blandit. Nunc sed ante non mauris pretium tempus. Praesent commodo
-    efficitur risus. Fusce elementum erat vitae suscipit tincidunt. Nam sodales imperdiet
-    mi, vel dapibus metus finibus sed. Proin molestie sit amet mi nec fermentum.
-    In rhoncus consequat est, faucibus aliquet augue efficitur non. Aliquam mollis
-    mattis justo id mattis.\r\n\r\nSuspendisse efficitur e\n\nros quis arcu porta,
-    blandit auctor orci sodales. Donec sapien dolor, aliquam quis nisl eget, placerat
-    placerat augue. Sed aliquam, lorem eu imperdiet euismod, ante nibh auctor risus,
-    ac lobortis ligula libero sit amet tortor. Vivamus eget congue urna. Vivamus
-    a tempus metus. Nullam maximus egestas turpis vel varius. Maecenas elementum
-    nunc sed efficitur dignissim. Praesent mauris enim, gravida ut finibus finibus,
-    faucibus at nulla. Nam varius tellus nec diam scelerisque, vel commodo nibh placerat.
-    Vivamus a magna ex. In dapibus nisi eget bibendum hendrerit. Nullam scele\n\n\nrisque
-    diam in quam lacinia vestibulum. Duis sit amet libero metus. Vestibulum scelerisque\n
-    laoreet tortor in facilisis. Sed scelerisque nunc ac mollis laoreet. Sed interdum
-    erat sollicitudin, gravida odio efficitur, rhoncus turpis."
+  m_text: "\xC9chappez-vous de la ferme !\n\nParviendrez-vous \xE0 vous enfuir et
+    \xE0 rejoindre la princesse sans encombre ? Chaque seconde compte, alors restez
+    concentr\xE9 et \xE9vitez les obstacles !\n\n- \xC0 partir de votre premier d\xE9placement,
+    le compteur de temps commencera automatiquement.\n\n-Vous devez rejoindre la
+    princesse le plus rapidement possible tout en minimisant le nombre de collisions.\n\n-Faites
+    attention aux obstacles sur votre chemin : chaque erreur pourrait vous co\xFBter
+    du temps pr\xE9cieux.\n\n-Si vous appuyez sur la touche \xC9chap, le menu pause
+    appara\xEEtra et le temps sera mis en pause.\n\n-Une fois le jeu termin\xE9,
+    votre score sera affich\xE9. Vous recevrez une seconde suppl\xE9mentaire au compteur
+    pour chaque collision.\n\n-Analysez votre performance et tentez d\u2019am\xE9liorer
+    votre strat\xE9gie \xE0 chaque partie.\nTentez de battre votre record ainsi que
+    celui de vos camarades !"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1c5554ba2de0bba4885d09e6e7943dbe, type: 2}
+  m_sharedMaterial: {fileID: 2037265805872666968, guid: 1c5554ba2de0bba4885d09e6e7943dbe, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
