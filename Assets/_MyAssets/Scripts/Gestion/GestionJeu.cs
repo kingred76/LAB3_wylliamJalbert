@@ -11,9 +11,8 @@ public class GestionJeu : MonoBehaviour
     // ***** Attributs *****
     public float TempsCumule { get; set; } = 0f;
 
-    private int _pointage = 0;  // Attribut qui conserve le nombre d'accrochages
-    public int Pointage => _pointage; // Accesseur de l'attribut
-
+    private int _pointage = 0;
+    public int Pointage => _pointage;
 
     private List<int> _listeAccrochages = new List<int>();
     public List<int> ListeAccrochages => _listeAccrochages;
@@ -21,40 +20,11 @@ public class GestionJeu : MonoBehaviour
     private List<float> _listeTemps = new List<float>();
     public List<float> ListeTemps => _listeTemps;
 
-    // ***** M�thodes priv�es *****
-    private void Awake()
-    {
-        // Singleton        
-        // V�rifie si un gameObject GestionJeu est d�j� pr�sent sur la sc�ne si oui
-        // on d�truit celui qui vient d'�tre ajout�. Sinon on le conserve pour le 
-        // sc�ne suivante et associe Instance.
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        GestionCollision.OnCollisionOccured += GestionCollision_OnCollisionOccured;
-        
-
-    }
-
-    private void OnDestroy()
-    {
-        GestionCollision.OnCollisionOccured -= GestionCollision_OnCollisionOccured;
-        Player.OnPlayerPaused -= Player_OnPlayerPaused;
-    }
-
-
-
     private float _startTime;
     public float StartTime => _startTime;
 
     private float _endTime;
-    public float EndTime { get => _endTime; set => _endTime = value; } 
+    public float EndTime { get => _endTime; set => _endTime = value; }
 
     private bool _isPaused = false;
 
@@ -64,15 +34,51 @@ public class GestionJeu : MonoBehaviour
     private float _startTimeNiveau;
     public float StartTimeNiveau { get => _startTimeNiveau; set => _startTimeNiveau = value; }
 
+    // ***** Awake *****
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            // Subscriptions globales
+            GestionCollision.OnCollisionOccured += GestionCollision_OnCollisionOccured;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    // ***** Start *****
     private void Start()
     {
         Time.timeScale = 1.0f;
         _pointage = 0;
         _startTime = Time.time;
-        Player.OnPlayerPaused += Player_OnPlayerPaused;
-       
     }
 
+    // ***** Quand une nouvelle scène est chargée *****
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 🔁 IMPORTANT : rebind au Player de la nouvelle scène
+
+        Player.OnPlayerPaused -= Player_OnPlayerPaused; // évite double subscription
+        Player.OnPlayerPaused += Player_OnPlayerPaused;
+    }
+
+    // ***** Cleanup *****
+    private void OnDestroy()
+    {
+        GestionCollision.OnCollisionOccured -= GestionCollision_OnCollisionOccured;
+        Player.OnPlayerPaused -= Player_OnPlayerPaused;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // ***** Gestion Pause *****
     private void Player_OnPlayerPaused(object sender, System.EventArgs e)
     {
         if (_isPaused)
@@ -80,37 +86,31 @@ public class GestionJeu : MonoBehaviour
             Time.timeScale = 1.0f;
             _isPaused = false;
         }
-        else { 
+        else
+        {
             Time.timeScale = 0.0f;
             _isPaused = true;
         }
     }
 
-    // ***** M�thodes publiques ******
+    // ***** Gestion collisions *****
+    private void GestionCollision_OnCollisionOccured(object sender, GestionCollision.OnCollisionOccuredEventArgs e)
+    {
+        _pointage += e.CollisionValue;
+    }
 
-    /*
-     * M�thode publique qui permet d'augmenter le pointage de 1
-     */
-
-
-    // M�thode qui re�oit les valeurs pour le niveau et l'ajoute dans les listes respectives
+    // ***** Gestion des niveaux *****
     public void SetNiveau(float temps)
     {
-        //Si premier niveau on ajoute directement le nombre de collision
-        //Sinon on ajoute les collisions - les collisions des niveaux pr�c�dents
         if (_listeAccrochages.Count == 0)
         {
             _listeAccrochages.Add(_pointage);
         }
         else
         {
-            ListeAccrochages.Add(_pointage - _listeAccrochages.Sum());
+            _listeAccrochages.Add(_pointage - _listeAccrochages.Sum());
         }
-        _listeTemps.Add(temps);
-    }
 
-    private void GestionCollision_OnCollisionOccured(object sender, GestionCollision.OnCollisionOccuredEventArgs e)
-    {
-        _pointage += e.CollisionValue;
+        _listeTemps.Add(temps);
     }
 }

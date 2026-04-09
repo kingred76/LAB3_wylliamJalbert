@@ -93,4 +93,10 @@ public class Player : MonoBehaviour
     {
         return _aBouger;
     }
+
+    private void OnDisable()
+    {
+        _playerInputActions.Player.Pause.performed -= Pause_performed;
+        _playerInputActions.Player.Disable();
+    }
 }
